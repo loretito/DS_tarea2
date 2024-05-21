@@ -7,7 +7,7 @@ export class DeliveryRequestConsumer implements OnModuleInit {
 
   async onModuleInit() {
     await this.consumerService.consume(
-      { topics: ['deliveryRequest'] },
+      { topics: ['delivery-request'] },
       {
         eachMessage: async ({ topic, partition, message }) => {
           console.log({
