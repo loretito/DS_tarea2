@@ -1,21 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { ProductData } from './interface';
-import { kafka } from './kafka';
+import { ProductData } from '../../interface';
+import { ProducerService } from '../kafka/producer.service';
 
 @Injectable()
 export class SendTopicService {
-  async deliveryRequest(data: ProductData) {
-    const producer = kafka.producer();
-    await producer.connect();
+  constructor(private readonly producerService: ProducerService) {}
 
-    await producer.send({
-      topic: 'deliveryRequest',
-      messages: [
-        {
-          key: null,
-          value: JSON.stringify(data),
-        },
-      ],
-    });
+  async deliveryRequest(data: ProductData) {
+    const record = {
+      topic: 'delivery-request',
+      messages: [{ key: null, value: JSON.stringify(data) }],
+    };
+
+    await this.producerService.produce(record);
   }
 }

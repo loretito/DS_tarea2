@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { SendTopicService } from './sendTopic.service';
-import { ProductData } from './interface';
+import { ProductData } from '../../interface';
 
 @Controller()
 export class AppController {
