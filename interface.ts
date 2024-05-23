@@ -3,4 +3,5 @@ export interface ProductData {
   name: string;
   price: number;
   email: string;
+  status: string;
 }

@@ -1,0 +1,5 @@
+services:
+  processor:
+    build: ./processor
+    environment:
+      - BOOTSTRAP_SERVERS=<kafka_host>:9092
