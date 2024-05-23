@@ -1,0 +1,17 @@
+services:
+
+  postgresql:
+    image: postgres
+    container_name: pgdb_tarea2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tienda
+    ports:
+      - "5444:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
+  
+volumes:
+  db_data: {}
