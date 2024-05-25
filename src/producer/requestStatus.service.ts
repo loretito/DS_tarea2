@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { ProductData } from '../../interface';
-import { ProducerService } from '../kafka/producer.service';
+import { ProductData } from 'interface';
+import { ProducerService } from 'src/kafka/producer.service';
 
-@Injectable()
-export class StatusUpdateService {
+Injectable();
+export class RequestStatusService {
   constructor(private readonly producerService: ProducerService) {}
 
-  async sendStatusUpdate(data: ProductData) {
+  async sendRequestStatus(data: ProductData) {
     const record = {
-      topic: 'status-updates',
+      topic: 'request-status',
       messages: [{ key: null, value: JSON.stringify(data) }],
     };
 

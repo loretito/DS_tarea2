@@ -13,7 +13,7 @@ export class CreateTopicService {
     await admin.createTopics({
       topics: [
         { topic: 'delivery-request', numPartitions: 3, replicationFactor: 1 },
-        { topic: 'status-updates', numPartitions: 3, replicationFactor: 1 },
+        { topic: 'delivered', numPartitions: 3, replicationFactor: 1 },
       ],
     });
 
