@@ -57,3 +57,5 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 #.csv files
 02-datasetFinal.csv
+
+src/test/__pycache__
