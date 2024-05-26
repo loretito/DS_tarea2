@@ -20,6 +20,7 @@ import { PreparedTopicService } from './preparedTopic.service';
     RequestStatusService,
     CompleteTopicService,
     PreparedTopicService,
+    RequestStatusService,
   ],
 })
 export class AppModule {
