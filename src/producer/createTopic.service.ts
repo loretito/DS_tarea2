@@ -1,22 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Kafka } from 'kafkajs';
 
 @Injectable()
 export class CreateTopicService {
-  async createTopic() {
-    const kafka = new Kafka({
-      clientId: 'kafka',
-      brokers: ['localhost:9092', 'localhost:9092'],
-    });
-    const admin = kafka.admin();
+  private readonly kafka = new Kafka({
+    clientId: 'kafka-admin-client',
+    brokers: ['localhost:9092'],
+  });
+  private readonly admin = this.kafka.admin();
+  private readonly logger = new Logger(CreateTopicService.name);
 
-    await admin.createTopics({
-      topics: [
-        { topic: 'delivery-request', numPartitions: 3, replicationFactor: 1 },
-        { topic: 'delivered', numPartitions: 3, replicationFactor: 1 },
-      ],
-    });
+  async createTopics() {
+    try {
+      await this.admin.connect();
 
-    admin.disconnect();
+      const topicsToCreate = [
+        { topic: 'RECEIVED', numPartitions: 3, replicationFactor: 1 },
+        { topic: 'PREPARED', numPartitions: 3, replicationFactor: 1 },
+        { topic: 'DELIVERED', numPartitions: 3, replicationFactor: 1 },
+        { topic: 'COMPLETED', numPartitions: 3, replicationFactor: 1 },
+      ];
+
+      const created = await this.admin.createTopics({
+        topics: topicsToCreate,
+        waitForLeaders: true,  // Esperar hasta que los líderes estén asignados
+      });
+
+      if (created) {
+        this.logger.log('Tópicos creados exitosamente');
+      } else {
+        this.logger.log('Los tópicos ya existen o no se crearon');
+      }
+
+    } catch (error) {
+      this.logger.error('Error al crear los tópicos', error);
+    } finally {
+      await this.admin.disconnect();
+    }
   }
 }

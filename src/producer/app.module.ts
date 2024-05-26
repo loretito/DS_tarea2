@@ -24,6 +24,6 @@ import { PreparedTopicService } from './preparedTopic.service';
 })
 export class AppModule {
   constructor(private readonly creaTopicService: CreateTopicService) {
-    this.creaTopicService.createTopic();
+    this.creaTopicService.createTopics();
   }
 }
