@@ -14,6 +14,8 @@ export class DeliveryRequestConsumer implements OnModuleInit {
         eachMessage: async ({ topic, partition, message }) => {
           const productData: ProductData = JSON.parse(message.value.toString());
           productData.status = 'RECEIVED';
+
+          // todo: mandar al topic Received
           const order = await this.saveProduct(productData);
 
           console.log({

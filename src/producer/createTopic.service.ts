@@ -23,7 +23,7 @@ export class CreateTopicService {
 
       const created = await this.admin.createTopics({
         topics: topicsToCreate,
-        waitForLeaders: true,  // Esperar hasta que los líderes estén asignados
+        waitForLeaders: true, // Esperar hasta que los líderes estén asignados
       });
 
       if (created) {
@@ -31,7 +31,6 @@ export class CreateTopicService {
       } else {
         this.logger.log('Los tópicos ya existen o no se crearon');
       }
-
     } catch (error) {
       this.logger.error('Error al crear los tópicos', error);
     } finally {
