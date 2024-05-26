@@ -5,13 +5,13 @@ import { MailerService } from '@nestjs-modules/mailer';
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  sendMail(): void {
+  sendMail(id: string, status: string): void {
     this.mailerService.sendMail({
       to: 'tarea2sdtester@gmail.com',
       from: 'tarea2sdtester@gmail.com',
-      subject: 'Update',
-      text: 'This is an update',
-      html: '<b>This is an update</b>',
+      subject: `Update product ${id}`,
+      text: `Your product with id ${id} has been updated`,
+      html: `Your product with id ${id} has been updated to ${status}`,
     });
   }
 }

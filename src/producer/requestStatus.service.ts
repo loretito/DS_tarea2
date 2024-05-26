@@ -8,7 +8,9 @@ export class RequestStatusService {
   private readonly logger = new Logger(RequestStatusService.name);
   private readonly topics = ['COMPLETED', 'DELIVERED', 'PREPARED', 'RECEIVED'];
 
-  constructor(private readonly readOnlyConsumerService: ReadOnlyConsumerService) {
+  constructor(
+    private readonly readOnlyConsumerService: ReadOnlyConsumerService,
+  ) {
     this.logger.log('RequestStatusService created');
   }
 
@@ -20,7 +22,9 @@ export class RequestStatusService {
       }
     }
 
-    this.logger.log(`Producto no encontrado en topics. Buscando en base de datos para ID: ${productId}`);
+    this.logger.log(
+      `Producto no encontrado en topics. Buscando en base de datos para ID: ${productId}`,
+    );
     const status = await findProductById(productId);
     if (status) {
       return `Status fetched from database: ${status} 📦`;

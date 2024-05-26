@@ -11,6 +11,7 @@ import { PreparedTopicService } from './preparedTopic.service';
 import { ReadOnlyConsumerService } from 'src/kafka/read-only.consumer';
 import { MailModule } from 'src/mailer/mail.module';
 import { ConfigModule } from '@nestjs/config';
+import { MonitorEmailTopicService } from './monitorEmailTopic.service';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ConfigModule } from '@nestjs/config';
     CompleteTopicService,
     PreparedTopicService,
     ReadOnlyConsumerService,
+    MonitorEmailTopicService,
   ],
 })
 export class AppModule {

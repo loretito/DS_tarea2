@@ -3,6 +3,8 @@ import { MailerController } from './mailer.controller';
 import { MailService } from './mailer.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule } from '@nestjs/config';
+import { MonitorEmailTopicService } from 'src/producer/monitorEmailTopic.service';
+import { KafkaModule } from 'src/kafka/kafka.module';
 
 @Module({
   imports: [
@@ -18,8 +20,10 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       envFilePath: '.env',
     }),
+    KafkaModule,
   ],
   controllers: [MailerController],
-  providers: [MailService],
+  providers: [MailService, MonitorEmailTopicService],
+  exports: [MailService],
 })
 export class MailModule {}
