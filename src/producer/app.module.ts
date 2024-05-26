@@ -9,6 +9,7 @@ import { RequestStatusService } from './requestStatus.service';
 import { CompleteTopicService } from './completeTopic.service';
 import { PreparedTopicService } from './preparedTopic.service';
 import { ReadOnlyConsumerService } from 'src/kafka/read-only.consumer';
+import { ProducerService } from '../kafka/producer.service';
 import { MailModule } from 'src/mailer/mail.module';
 import { ConfigModule } from '@nestjs/config';
 import { MonitorEmailTopicService } from './monitorEmailTopic.service';
@@ -31,6 +32,7 @@ import { MonitorEmailTopicService } from './monitorEmailTopic.service';
     CompleteTopicService,
     PreparedTopicService,
     ReadOnlyConsumerService,
+    ProducerService,
     MonitorEmailTopicService,
   ],
 })

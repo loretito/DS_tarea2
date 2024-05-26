@@ -34,11 +34,12 @@ if __name__ == "__main__":
         # Insertar orden en la base de datos y obtener el bd_id
         order_id = insert_order(connection, product_name, price, email, status)
         if order_id:
-            # Crear el mensaje con el bd_id
+            # Crear el mensaje con el bd_id al principio
             test_message = {
                 "bd_id": order_id,
                 "product_name": product_name,
                 "price": price,
+                "email": email,  
                 "status": status
             }
             # Enviar el mensaje al tópico 'RECEIVED'
