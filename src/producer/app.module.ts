@@ -9,9 +9,17 @@ import { RequestStatusService } from './requestStatus.service';
 import { CompleteTopicService } from './completeTopic.service';
 import { PreparedTopicService } from './preparedTopic.service';
 import { ReadOnlyConsumerService } from 'src/kafka/read-only.consumer';
+import { MailModule } from 'src/mailer/mail.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [KafkaModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
+    KafkaModule,
+    MailModule,
+  ],
   controllers: [AppController],
   providers: [
     CreateTopicService,
