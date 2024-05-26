@@ -19,10 +19,11 @@ export class ConsumerService implements OnApplicationShutdown {
     topic: ConsumerSubscribeTopics,
     config: ConsumerRunConfig,
     consumerGroup: string = 'nestjs-kafka',
+    fromBeginning: boolean = false,
   ) {
     const consumer = this.kafka.consumer({ groupId: consumerGroup });
     await consumer.connect();
-    await consumer.subscribe(topic);
+    await consumer.subscribe({ ...topic, fromBeginning });
     await consumer.run(config);
     this.consumers.push(consumer);
   }
@@ -36,17 +37,17 @@ export class ConsumerService implements OnApplicationShutdown {
   async consumeTopic(
     topic: string,
     consumerGroup: string = 'nestjs-kafka-test',
+    fromBeginning: boolean = true,
   ) {
     const consumer = this.kafka.consumer({ groupId: consumerGroup });
     await consumer.connect();
-    await consumer.subscribe({ topics: [topic], fromBeginning: true });
+    await consumer.subscribe({ topics: [topic], fromBeginning });
 
     await consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
         this.logger.log(
           `Received message on ${topic} [${partition}] / ${message.offset}: ${message.value.toString()}`,
         );
-        // Print message value to understand its structure
         try {
           const data = JSON.parse(message.value.toString());
           this.logger.log(

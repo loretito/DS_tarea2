@@ -8,6 +8,7 @@ import { DeliveredTopicService } from './deliveredTopic.service';
 import { RequestStatusService } from './requestStatus.service';
 import { CompleteTopicService } from './completeTopic.service';
 import { PreparedTopicService } from './preparedTopic.service';
+import { ReadOnlyConsumerService } from 'src/kafka/read-only.consumer';
 
 @Module({
   imports: [KafkaModule],
@@ -20,7 +21,7 @@ import { PreparedTopicService } from './preparedTopic.service';
     RequestStatusService,
     CompleteTopicService,
     PreparedTopicService,
-    RequestStatusService,
+    ReadOnlyConsumerService,
   ],
 })
 export class AppModule {

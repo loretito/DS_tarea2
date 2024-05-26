@@ -21,9 +21,9 @@ export class AppController {
     return await this.requestStatusService.checkProductStatus(id);
   }
 
-  @Get('/test')
-  async testComsumeCompleted() {
-    await this.requestStatusService.testConsumeCompletedTopic();
-    return 'Consumed Completed topic';
-  }
+//  @Get('/test')
+//  async testComsumeCompleted() {
+//    await this.requestStatusService.testConsumeCompletedTopic();
+//    return 'Consumed Completed topic';
+//  }
 }

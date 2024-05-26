@@ -1,35 +1,32 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ProductData } from 'interface';
-import { ConsumerService } from 'src/kafka/consumer.service';
+import { ReadOnlyConsumerService } from 'src/kafka/read-only.consumer';
+import { findProductById } from 'src/consumer/db-connection';
 
 @Injectable()
 export class RequestStatusService {
   private readonly logger = new Logger(RequestStatusService.name);
   private readonly topics = ['COMPLETED', 'DELIVERED', 'PREPARED', 'RECEIVED'];
 
-  constructor(private readonly consumerService: ConsumerService) {
+  constructor(private readonly readOnlyConsumerService: ReadOnlyConsumerService) {
     this.logger.log('RequestStatusService created');
-    if (!this.consumerService) {
-      this.logger.error('ConsumerService is not defined');
-    } else {
-      this.logger.log('ConsumerService is defined');
-    }
-
-    if (typeof this.consumerService.consume !== 'function') {
-      this.logger.error('ConsumerService.consume is not a function');
-    } else {
-      this.logger.log('ConsumerService.consume is a function');
-    }
   }
 
   async checkProductStatus(productId: string): Promise<string> {
     for (const topic of this.topics) {
       const status = await this.checkTopicForProduct(topic, productId);
       if (status) {
-        return status;
+        return `Status fetched from Kafka topics: ${status} ✅`;
       }
     }
-    return 'Producto no encontrado';
+
+    this.logger.log(`Producto no encontrado en topics. Buscando en base de datos para ID: ${productId}`);
+    const status = await findProductById(productId);
+    if (status) {
+      return `Status fetched from database: ${status} 📦`;
+    }
+
+    return 'Order not found 🛑';
   }
 
   private async checkTopicForProduct(
@@ -37,22 +34,22 @@ export class RequestStatusService {
     productId: string,
   ): Promise<string | null> {
     return new Promise(async (resolve) => {
-      const consumerGroup = `status-check-group-${topic}`;
-      await this.consumerService.consume(
-        { topics: [topic] },
-        {
-          eachMessage: async ({ message }) => {
-            const data: ProductData = JSON.parse(message.value.toString());
-            this.logger.log(
-              `Checking message in topic ${topic}: ${JSON.stringify(data)}`,
-            );
-            if (data.bd_id === +productId) {
-              resolve(this.mapTopicToStatus(topic));
-            }
-          },
+      const consumerGroup = `read-only-group-${topic}-${Date.now()}`;
+      await this.readOnlyConsumerService.readMessages(
+        topic,
+        async ({ message }) => {
+          const data: ProductData = JSON.parse(message.value.toString());
+          this.logger.log(
+            `Checking message in topic ${topic}: ${JSON.stringify(data)}`,
+          );
+          if (data.bd_id === +productId) {
+            resolve(this.mapTopicToStatus(topic));
+          }
         },
         consumerGroup,
       );
+
+      // Resolviendo null después de un timeout
       setTimeout(() => resolve(null), 10000);
     });
   }
@@ -60,20 +57,15 @@ export class RequestStatusService {
   private mapTopicToStatus(topic: string): string {
     switch (topic) {
       case 'COMPLETED':
-        return 'Completado';
+        return 'Completed';
       case 'DELIVERED':
-        return 'Entregado';
+        return 'Delivered';
       case 'PREPARED':
-        return 'Preparado';
+        return 'Prepared';
       case 'RECEIVED':
-        return 'Recibido';
+        return 'Received';
       default:
-        return 'Desconocido';
+        return 'Unknown';
     }
-  }
-
-  async testConsumeCompletedTopic() {
-    this.logger.log('Testing consume of COMPLETED topic');
-    await this.consumerService.consumeTopic('COMPLETED');
   }
 }

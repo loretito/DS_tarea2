@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 const postgres = require('postgres');
 
 // Configuración de la conexión a la base de datos
@@ -8,14 +9,17 @@ const sql = postgres({
   username: 'postgres',
   password: 'postgres',
   onnotice: (notice) => {
-    console.log(`Notice: ${notice.message}`);
+    Logger.log(`Notice: ${notice.message}`);
   },
+  // Para depuración, descomentar las siguientes líneas:
+  /*
   debug: (connection, query, parameters) => {
-    console.log(`Query: ${query}`);
-    console.log(`Parameters: ${parameters}`);
+    Logger.log(`Query: ${query}`);
+    Logger.log(`Parameters: ${parameters}`);
   },
+  */
   onerror: (err) => {
-    console.error(`Database error: ${err.message}`);
+    Logger.error(`Database error: ${err.message}`);
   }
 });
 
@@ -25,22 +29,24 @@ export default sql;
 const checkConnection = async () => {
   try {
     // Ejecutar una consulta simple para verificar la conexión
-    const result = await sql`SELECT version()`;
-    console.log('Conexión exitosa a la base de datos.');
-    console.log('Versión de PostgreSQL:', result[0].version);
-
-    // Información adicional sobre la conexión
-    const connectionInfo = await sql`
-      SELECT
-        inet_server_addr() as server_ip,
-        inet_server_port() as server_port,
-        current_database() as database_name,
-        current_user as user_name
-    `;
-    console.log('Información de la conexión:', connectionInfo[0]);
+    await sql`SELECT version()`;
+    Logger.log('Connection successful to database 🗃️');
 
   } catch (error) {
-    console.error('Error al conectar a la base de datos:', error.message);
+    Logger.error('Error al conectar a la base de datos:', error.message);
+  }
+};
+
+// Función para buscar un producto por ID
+export const findProductById = async (productId: string) => {
+  try {
+    const result = await sql`
+      SELECT status FROM "order" WHERE bd_id = ${productId}
+    `;
+    return result.length ? result[0].status : null;
+  } catch (error) {
+    Logger.error('Error al buscar el producto en la base de datos:', error.message);
+    throw error;
   }
 };
 
