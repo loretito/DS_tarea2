@@ -1,7 +1,7 @@
 export type Status = 'RECEIVED' | 'PREPARED' | 'DELIVERED' | 'COMPLETE';
 
 export interface ProductData {
-  id?: number;
+  bd_id?: number;
   name: string;
   price: number;
   email: string;
