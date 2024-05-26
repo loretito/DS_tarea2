@@ -37,7 +37,8 @@ npm i
 To bring up Docker Compose use:
 
 ```bash
-docker-compose up -d
+# docker-compose up -d
+docker compose up --scale automatic-processor=3 --build
 ```
 
 To bring down Docker Compose
@@ -57,7 +58,7 @@ npm run start
 #### Consumer
 
 ```bash
-a
+
 ```
 
 <!-- #### Docker Partition
@@ -72,6 +73,19 @@ cluster nodes
 ``` -->
 
 ### Testing
+
+Inside src/test
+
+Install 
+
+```bash
+pip install psycopg2-binary confluent_kafka
+```
+
+Use test 
+```bash
+python3 creadorDeOrdenes.py
+```
 
 something...
 
