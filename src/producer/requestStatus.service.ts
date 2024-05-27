@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ProductData } from 'interface';
 import { ReadOnlyConsumerService } from 'src/kafka/read-only.consumer';
 import { findProductById } from 'src/consumer/db-connection';
@@ -14,11 +14,15 @@ export class RequestStatusService {
     this.logger.log('RequestStatusService created');
   }
 
-  async checkProductStatus(productId: string): Promise<string> {
+  async checkProductStatus(productId: string): Promise<{message: string, status: string, statusCode: number}> {
     for (const topic of this.topics) {
       const status = await this.checkTopicForProduct(topic, productId);
       if (status) {
-        return `Status fetched from Kafka topics: ${status} ✅`;
+        return {
+          message: `Status fetched from Kafka topics: ${status} 🖥️✅`,
+          status: 'Found',
+          statusCode: 200
+        };
       }
     }
 
@@ -27,10 +31,18 @@ export class RequestStatusService {
     );
     const status = await findProductById(productId);
     if (status) {
-      return `Status fetched from database: ${status} 📦`;
+      return {
+        message: `Status fetched from database: ${status} 📂`,
+        status: 'Found',
+        statusCode: 200
+      };
     }
 
-    return 'Order not found 🛑';
+    throw new NotFoundException({
+      message: 'Order not found 🛑',
+      status: 'Not Found',
+      statusCode: 404
+    });
   }
 
   private async checkTopicForProduct(
@@ -43,9 +55,9 @@ export class RequestStatusService {
         topic,
         async ({ message }) => {
           const data: ProductData = JSON.parse(message.value.toString());
-          //this.logger.log(
-          //  `Checking message in topic ${topic}: ${JSON.stringify(data)}`,
-          //);
+          // this.logger.log(
+          //   `Checking message in topic ${topic}: ${JSON.stringify(data)}`,
+          // );
           if (data.bd_id === +productId) {
             resolve(this.mapTopicToStatus(topic));
           }

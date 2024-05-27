@@ -38,7 +38,7 @@ To bring up Docker Compose use:
 
 ```bash
 # docker-compose up -d
-docker compose up --scale automatic-processor=3 --build
+docker-compose up --scale automatic-processor-normal=3 --scale automatic-processor-slower=2 --build
 ```
 
 To bring down Docker Compose

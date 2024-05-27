@@ -39,9 +39,30 @@ services:
       - db_data:/var/lib/postgresql/data
       - ./BDD/db-init:/docker-entrypoint-initdb.d
 
-  automatic-processor:
+  automatic-processor-normal:
     build:
-      context: ./Automatic Process Service
+      context: ./Automatic Process Service/normal
+    environment:
+      - DB_HOST=pgdb_tarea2
+      - DB_PORT=5432
+      - DB_NAME=tienda
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - KAFKA_BROKER=kafka:9093
+    depends_on:
+      - kafka
+      - zookeeper
+      - postgresql
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://kafka:9092 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  automatic-processor-slower:
+    build:
+      context: ./Automatic Process Service/slower
     environment:
       - DB_HOST=pgdb_tarea2
       - DB_PORT=5432
