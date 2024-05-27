@@ -24,58 +24,28 @@ FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
 COPY product ("name", price)
 FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
 
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
---COPY product ("name", price)
---FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
---
+COPY product ("name", price)
+FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
+
+COPY product ("name", price)
+FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
+
+COPY product ("name", price)
+FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
+
+COPY product ("name", price)
+FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
+
+COPY product ("name", price)
+FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
+
+COPY product ("name", price)
+FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
+
+COPY product ("name", price)
+FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
+
+COPY product ("name", price)
+FROM '/docker-entrypoint-initdb.d/02-dataset.csv' DELIMITER '|' CSV HEADER;
+
 --SELECT count(*) FROM product;

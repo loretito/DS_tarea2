@@ -15,10 +15,10 @@ export class CreateTopicService {
       await this.admin.connect();
 
       const topicsToCreate = [
-        { topic: 'RECEIVED', numPartitions: 3, replicationFactor: 1 },
-        { topic: 'PREPARED', numPartitions: 3, replicationFactor: 1 },
-        { topic: 'DELIVERED', numPartitions: 3, replicationFactor: 1 },
-        { topic: 'COMPLETED', numPartitions: 3, replicationFactor: 1 },
+        { topic: 'RECEIVED', numPartitions: 6, replicationFactor: 1 },
+        { topic: 'PREPARED', numPartitions: 6, replicationFactor: 1 },
+        { topic: 'DELIVERED', numPartitions: 6, replicationFactor: 1 },
+        { topic: 'COMPLETED', numPartitions: 6, replicationFactor: 1 },
       ];
 
       const created = await this.admin.createTopics({

@@ -43,6 +43,7 @@ def execute_query(conn, query, params=None):
             if cursor.description:
                 result = cursor.fetchall()
                 print(f"🔍 Query result: {result}")
+                return result
             else:
                 conn.commit()
                 print("✅ Query executed successfully")
@@ -85,6 +86,24 @@ def insert_order(conn, product_name, price, email, status):
             conn.commit()
             print(f"🆕 Order inserted with id {order_id}")
             return order_id
+    except Exception as err:
+        handle_error(err)
+        return None
+
+def get_product_by_id(conn, bd_id):
+    query = "SELECT bd_id, name, price FROM product WHERE bd_id = %s;"
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(query, (bd_id,))
+            product = cursor.fetchone()
+            handle_notices(conn)  # Manejar las notificaciones después de ejecutar la consulta
+            if product:
+                return {
+                    'bd_id': product[0],
+                    'name': product[1],
+                    'price': product[2]
+                }
+            return None
     except Exception as err:
         handle_error(err)
         return None

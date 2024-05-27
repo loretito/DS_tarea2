@@ -43,9 +43,9 @@ export class RequestStatusService {
         topic,
         async ({ message }) => {
           const data: ProductData = JSON.parse(message.value.toString());
-          this.logger.log(
-            `Checking message in topic ${topic}: ${JSON.stringify(data)}`,
-          );
+          //this.logger.log(
+          //  `Checking message in topic ${topic}: ${JSON.stringify(data)}`,
+          //);
           if (data.bd_id === +productId) {
             resolve(this.mapTopicToStatus(topic));
           }

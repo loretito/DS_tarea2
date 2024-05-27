@@ -22,6 +22,7 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKAJS_NO_PARTITIONER_WARNING=1
+      - KAFKA_LOG_RETENTION_BYTES=52428800  # 50 MB
     depends_on:
       - zookeeper
 
