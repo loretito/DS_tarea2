@@ -5,7 +5,7 @@ import { Kafka } from 'kafkajs';
 export class CreateTopicService {
   private readonly kafka = new Kafka({
     clientId: 'kafka-admin-client',
-    brokers: ['localhost:9092', 'localhost:9094', 'localhost:9096'], // Incluye todos los brokers aquí
+    brokers: ['localhost:9092'],
   });
   private readonly admin = this.kafka.admin();
   private readonly logger = new Logger(CreateTopicService.name);
@@ -15,10 +15,10 @@ export class CreateTopicService {
       await this.admin.connect();
 
       const topicsToCreate = [
-        { topic: 'RECEIVED', numPartitions: 6, replicationFactor: 3 }, // replicationFactor: 3 para tener 3 réplicas, una en cada broker
-        { topic: 'PREPARED', numPartitions: 6, replicationFactor: 3 },
-        { topic: 'DELIVERED', numPartitions: 6, replicationFactor: 3 },
-        { topic: 'COMPLETED', numPartitions: 6, replicationFactor: 3 },
+        { topic: 'RECEIVED', numPartitions: 6, replicationFactor: 1 },
+        { topic: 'PREPARED', numPartitions: 6, replicationFactor: 1 },
+        { topic: 'DELIVERED', numPartitions: 6, replicationFactor: 1 },
+        { topic: 'COMPLETED', numPartitions: 6, replicationFactor: 1 },
       ];
 
       const created = await this.admin.createTopics({

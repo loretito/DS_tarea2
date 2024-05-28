@@ -8,51 +8,15 @@ services:
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
-  kafka-1:
+  kafka:
     image: "bitnami/kafka:latest"
-    container_name: "kafka-1"
+    container_name: "kafka"
     ports:
       - "9092:9092"
     environment:
       - KAFKA_BROKER_ID=1
-      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://kafka-1:9093
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092,PLAINTEXT_INTERNAL://kafka-1:9093
-      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT_INTERNAL
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKAJS_NO_PARTITIONER_WARNING=1
-      - KAFKA_LOG_RETENTION_BYTES=52428800  # 50 MB
-    depends_on:
-      - zookeeper
-
-  kafka-2:
-    image: "bitnami/kafka:latest"
-    container_name: "kafka-2"
-    ports:
-      - "9094:9094"
-    environment:
-      - KAFKA_BROKER_ID=2
-      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9094,PLAINTEXT_INTERNAL://kafka-2:9095
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9094,PLAINTEXT_INTERNAL://kafka-2:9095
-      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT_INTERNAL
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKAJS_NO_PARTITIONER_WARNING=1
-      - KAFKA_LOG_RETENTION_BYTES=52428800  # 50 MB
-    depends_on:
-      - zookeeper
-
-  kafka-3:
-    image: "bitnami/kafka:latest"
-    container_name: "kafka-3"
-    ports:
-      - "9096:9096"
-    environment:
-      - KAFKA_BROKER_ID=3
-      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9096,PLAINTEXT_INTERNAL://kafka-3:9097
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9096,PLAINTEXT_INTERNAL://kafka-3:9097
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://kafka:9093
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092,PLAINTEXT_INTERNAL://kafka:9093
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT_INTERNAL
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
@@ -84,16 +48,14 @@ services:
       - DB_NAME=tienda
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - KAFKA_BROKER=kafka-1:9093,kafka-2:9095,kafka-3:9097
+      - KAFKA_BROKER=kafka:9093
     depends_on:
-      - kafka-1
-      - kafka-2
-      - kafka-3
+      - kafka
       - zookeeper
       - postgresql
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://kafka-1:9092 || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://kafka:9092 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -107,16 +69,14 @@ services:
       - DB_NAME=tienda
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - KAFKA_BROKER=kafka-1:9093,kafka-2:9095,kafka-3:9097
+      - KAFKA_BROKER=kafka:9093
     depends_on:
-      - kafka-1
-      - kafka-2
-      - kafka-3
+      - kafka
       - zookeeper
       - postgresql
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://kafka-1:9092 || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://kafka:9092 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
