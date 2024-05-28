@@ -83,3 +83,5 @@ services:
 
 volumes:
   db_data: {}
+
+#amigo las branches son para gente inteligente, nosotros trabajamos en el main
