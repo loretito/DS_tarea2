@@ -40,8 +40,12 @@ export class AppModule {
   constructor(
     private readonly createTopicService: CreateTopicService,
     private readonly monitorEmailTopicService: MonitorEmailTopicService
-  ) {
-    this.createTopicService.createTopics();
-    this.monitorEmailTopicService.monitorTopics();
+  ) {}
+
+  async onModuleInit() {
+    await this.createTopicService.createTopics();
+    setTimeout(async () => {
+      await this.monitorEmailTopicService.monitorTopics();
+    }, 3000);  // Espera 3 segundos antes de iniciar el monitoreo
   }
 }

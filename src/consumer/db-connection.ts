@@ -11,13 +11,6 @@ const sql = postgres({
   onnotice: (notice) => {
     Logger.log(`Notice: ${notice.message}`);
   },
-  // Para depuración, descomentar las siguientes líneas:
-  /*
-  debug: (connection, query, parameters) => {
-    Logger.log(`Query: ${query}`);
-    Logger.log(`Parameters: ${parameters}`);
-  },
-  */
   onerror: (err) => {
     Logger.error(`Database error: ${err.message}`);
   }
@@ -31,19 +24,19 @@ const checkConnection = async () => {
     // Ejecutar una consulta simple para verificar la conexión
     await sql`SELECT version()`;
     Logger.log('Connection successful to database 🗃️');
-
   } catch (error) {
     Logger.error('Error al conectar a la base de datos:', error.message);
   }
 };
 
 // Función para buscar un producto por ID
-export const findProductById = async (productId: string) => {
+export const findProductById = async (productId: number) => {
   try {
     const result = await sql`
-      SELECT status FROM "order" WHERE bd_id = ${productId}
+      SELECT * FROM "order" WHERE bd_id = ${productId}
     `;
-    return result.length ? result[0].status : null;
+    Logger.log(`Producto encontrado en la base de datos: ${result}`);
+    return result.length ? result[0] : null;
   } catch (error) {
     Logger.error('Error al buscar el producto en la base de datos:', error.message);
     throw error;

@@ -27,7 +27,7 @@ export class RequestStatusService implements OnModuleInit {
         async ({ message }) => {
           const data: ProductData = JSON.parse(message.value.toString());
           const status = this.mapTopicToStatus(topic);
-          await this.mailService.sendMail(data.bd_id.toString(), status, data.email, data);
+          await this.mailService.sendMail(data.bd_id.toString(), status, data.email.trim(), data); // Asegúrate de que el correo esté limpio
           this.logger.log(`Correo enviado: ${data.bd_id} - ${status}`);
         },
         `monitor-group-${topic}`,
@@ -35,31 +35,37 @@ export class RequestStatusService implements OnModuleInit {
     }
   }
 
-  async checkProductStatus(productId: string): Promise<{message: string, status: string, statusCode: number}> {
+  async checkProductStatus(productId: number): Promise<{message: string, status: string, statusCode: number}> {
     for (const topic of this.topics) {
-      const status = await this.checkTopicForProduct(topic, productId);
+      const status = await this.checkTopicForProduct(topic, productId.toString());
       
       if (status) {
-        const productData = await this.getProductDetailsFromKafka(topic, productId);
+        const productData = await this.getProductDetailsFromKafka(topic, productId.toString());
         if (productData) {
-          await this.mailService.sendMail(productData.bd_id.toString(), status, productData.email, productData);
+          await this.mailService.sendMail(productData.bd_id.toString(), status, productData.email.trim(), productData); // Asegúrate de que el correo esté limpio
+          return {
+            message: `Status fetched from Kafka topics: ${status} 🖥️✅`,
+            status: 'Found',
+            statusCode: 200
+          };
         }
-        return {
-          message: `Status fetched from Kafka topics: ${status} 🖥️✅`,
-          status: 'Found',
-          statusCode: 200
-        };
       }
     }
 
     this.logger.log(
       `Producto no encontrado en topics. Buscando en base de datos para ID: ${productId}`,
     );
-    const productData = await findProductById(productId);
-    if (productData) {
-      await this.mailService.sendMail(productData.bd_id.toString(), productData.status, productData.email, productData);
+    const product = await findProductById(productId);
+    //console.log('findProductById result:', JSON.stringify(product, null, 2)); // Aquí imprimes el objeto
+    const status = product.status; // Aquí accedes a la propiedad status
+    const email = product.email; // Aquí accedes a la propiedad email
+    const name = product.product_name; // Aquí accedes a la propiedad product_name
+    const id = product.bd_id; // Aquí accedes a la propiedad bd_id
+    const price = product.price; // Aquí accedes a la propiedad price
+    if (status) {
+      await this.mailService.sendMail(id.toString(), status, email.trim(), { bd_id: id, name, price, email, status }); // Asegúrate de que el correo esté limpio
       return {
-        message: `Status fetched from database: ${productData.status} 📂`,
+        message: `Status fetched from database: ${status} 📂`,
         status: 'Found',
         statusCode: 200
       };

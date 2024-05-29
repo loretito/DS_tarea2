@@ -1,10 +1,10 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ProductData } from 'interface';
 import { ReadOnlyConsumerService } from 'src/kafka/read-only.consumer';
 import { MailService } from 'src/mailer/mailer.service';
 
 @Injectable()
-export class MonitorEmailTopicService implements OnModuleInit {
+export class MonitorEmailTopicService {
   private readonly logger = new Logger(MonitorEmailTopicService.name);
   private readonly topics = ['COMPLETED', 'DELIVERED', 'PREPARED', 'RECEIVED'];
 
@@ -15,10 +15,6 @@ export class MonitorEmailTopicService implements OnModuleInit {
     this.logger.log('MonitorEmailTopicService created');
   }
 
-  onModuleInit() {
-    this.monitorTopics();
-  }
-
   async monitorTopics() {
     for (const topic of this.topics) {
       this.readOnlyConsumerService.readMessages(
@@ -27,7 +23,7 @@ export class MonitorEmailTopicService implements OnModuleInit {
           const data: ProductData = JSON.parse(message.value.toString());
           const status = this.mapTopicToStatus(topic);
           const emailMessage = `Update producto id ${data.bd_id}: ${status}`;
-          await this.mailService.sendMail(data.bd_id.toString(), status, data.email, data);
+          this.mailService.sendMail(data.bd_id.toString(), status, data.email, data);
           this.logger.log(`Correo enviado: ${emailMessage}`);
         },
         `monitor-group-${topic}`,

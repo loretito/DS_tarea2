@@ -18,7 +18,7 @@ export class AppController {
 
   @Get('/status/:id')
   async getStatus(@Param('id') id: string) {
-    return await this.requestStatusService.checkProductStatus(id);
+    return await this.requestStatusService.checkProductStatus(+id);
   }
 
   //  @Get('/test')

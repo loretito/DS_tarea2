@@ -5,7 +5,9 @@ import { MailService } from './mailer.service';
 import { MonitorEmailTopicService } from 'src/producer/monitorEmailTopic.service';
 import { RequestStatusService } from 'src/producer/requestStatus.service';
 import { KafkaModule } from 'src/kafka/kafka.module';
+import { timeout } from 'rxjs';
 
+timeout(2000);
 @Module({
   imports: [
     MailerModule.forRoot({
@@ -13,7 +15,7 @@ import { KafkaModule } from 'src/kafka/kafka.module';
         host: 'smtp.gmail.com',
         auth: {
           user: 'tarea2sdtester@gmail.com',
-          pass: 'kitg exyy pync ouew',
+          pass: 'pdyx amvj jurg esvc',
         },
       },
     }),
