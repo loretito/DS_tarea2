@@ -15,7 +15,7 @@ timeout(2000);
         host: 'smtp.gmail.com',
         auth: {
           user: 'tarea2sdtester@gmail.com',
-          pass: 'pdyx amvj jurg esvc',
+          pass: 'mkwg wtez nflg onfm',
         },
       },
     }),

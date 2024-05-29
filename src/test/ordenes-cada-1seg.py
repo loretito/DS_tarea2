@@ -33,10 +33,9 @@ if __name__ == "__main__":
             order = {
                 "name": product['name'],
                 "price": product['price'],
-                "email": "Hola@Hola.com"
+                "email": "tarea2sdtester@gmail.com"
             }
             send_order(order, _+1)
-            time.sleep(1)
         else:
             print(f"Producto con id {random_id} no encontrado")
 
