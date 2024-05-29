@@ -37,7 +37,11 @@ import { MonitorEmailTopicService } from './monitorEmailTopic.service';
   ],
 })
 export class AppModule {
-  constructor(private readonly creaTopicService: CreateTopicService) {
-    this.creaTopicService.createTopics();
+  constructor(
+    private readonly createTopicService: CreateTopicService,
+    private readonly monitorEmailTopicService: MonitorEmailTopicService
+  ) {
+    this.createTopicService.createTopics();
+    this.monitorEmailTopicService.monitorTopics();
   }
 }

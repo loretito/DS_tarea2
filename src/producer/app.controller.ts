@@ -11,8 +11,8 @@ export class AppController {
   ) {}
 
   @Post('/delivery-request')
-  deliveryRequest(@Body() body: ProductData) {
-    this.sendTopicService.deliveryRequest(body);
+  async deliveryRequest(@Body() body: ProductData) {
+    await this.sendTopicService.deliveryRequest(body);
     return 'Pedido de entrega creado';
   }
 

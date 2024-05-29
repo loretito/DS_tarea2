@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { MailerController } from './mailer.controller';
-import { MailService } from './mailer.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule } from '@nestjs/config';
+import { MailService } from './mailer.service';
 import { MonitorEmailTopicService } from 'src/producer/monitorEmailTopic.service';
+import { RequestStatusService } from 'src/producer/requestStatus.service';
 import { KafkaModule } from 'src/kafka/kafka.module';
 
 @Module({
@@ -22,8 +22,7 @@ import { KafkaModule } from 'src/kafka/kafka.module';
     }),
     KafkaModule,
   ],
-  controllers: [MailerController],
-  providers: [MailService, MonitorEmailTopicService],
+  providers: [MailService, MonitorEmailTopicService, RequestStatusService],
   exports: [MailService],
 })
 export class MailModule {}
