@@ -4,9 +4,9 @@ import time
 import matplotlib.pyplot as plt
 
 # Configuración del script
-X = 900  # Rango mínimo de IDs
-Y = 1900  # Rango máximo de IDs
-A = 15  # Número de consultas a realizar
+X = 1  # Rango mínimo de IDs
+Y = 500  # Rango máximo de IDs
+A = 3  # Número de consultas a realizar
 
 # Función para hacer una consulta y medir el tiempo
 def make_request(id):
@@ -66,12 +66,17 @@ plt.axhline(y=average_time, color='gray', linestyle='--', label=f'Average time: 
 plt.legend()
 
 # Gráfico de donut
-labels = ['Kafka', 'Database', 'Not Found']
+labels = [f'Kafka - {kafka_count}', f'Database - {db_count}', f'Not Found - {not_found_count}']
 sizes = [kafka_count, db_count, not_found_count]
 colors = ['#028391', '#F6DCAC', '#FEAE6F']
 
 plt.subplot(1, 2, 2)
 wedges, texts, autotexts = plt.pie(sizes, colors=colors, startangle=140, wedgeprops=dict(width=0.3), autopct='%1.1f%%')
+
+# Agregar leyendas personalizadas
+for i, a in enumerate(autotexts):
+    a.set_text(f'{labels[i]}\n{a.get_text()}')
+
 plt.title('Response Distribution')
 
 # Mostrar el tiempo promedio en la consola
