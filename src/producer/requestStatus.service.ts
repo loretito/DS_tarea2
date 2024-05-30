@@ -1,4 +1,9 @@
-import { Injectable, Logger, NotFoundException, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  OnModuleInit,
+} from '@nestjs/common';
 import { ProductData } from 'interface';
 import { ReadOnlyConsumerService } from 'src/kafka/read-only.consumer';
 import { findProductById } from 'src/consumer/db-connection';
@@ -27,7 +32,12 @@ export class RequestStatusService implements OnModuleInit {
         async ({ message }) => {
           const data: ProductData = JSON.parse(message.value.toString());
           const status = this.mapTopicToStatus(topic);
-          await this.mailService.sendMail(data.bd_id.toString(), status, data.email.trim(), data); // Asegúrate de que el correo esté limpio
+          await this.mailService.sendMail(
+            data.bd_id.toString(),
+            status,
+            data.email.trim(),
+            data,
+          ); // Asegúrate de que el correo esté limpio
           this.logger.log(`Correo enviado: ${data.bd_id} - ${status}`);
         },
         `monitor-group-${topic}`,
@@ -35,18 +45,31 @@ export class RequestStatusService implements OnModuleInit {
     }
   }
 
-  async checkProductStatus(productId: number): Promise<{message: string, status: string, statusCode: number}> {
+  async checkProductStatus(
+    productId: number,
+  ): Promise<{ message: string; status: string; statusCode: number }> {
     for (const topic of this.topics) {
-      const status = await this.checkTopicForProduct(topic, productId.toString());
-      
+      const status = await this.checkTopicForProduct(
+        topic,
+        productId.toString(),
+      );
+
       if (status) {
-        const productData = await this.getProductDetailsFromKafka(topic, productId.toString());
+        const productData = await this.getProductDetailsFromKafka(
+          topic,
+          productId.toString(),
+        );
         if (productData) {
-          await this.mailService.sendMail(productData.bd_id.toString(), status, productData.email.trim(), productData); // Asegúrate de que el correo esté limpio
+          await this.mailService.sendMail(
+            productData.bd_id.toString(),
+            status,
+            productData.email.trim(),
+            productData,
+          ); // Asegúrate de que el correo esté limpio
           return {
             message: `Status fetched from Kafka topics: ${status} 🖥️✅`,
             status: 'Found',
-            statusCode: 200
+            statusCode: 200,
           };
         }
       }
@@ -63,18 +86,24 @@ export class RequestStatusService implements OnModuleInit {
     const id = product.bd_id; // Aquí accedes a la propiedad bd_id
     const price = product.price; // Aquí accedes a la propiedad price
     if (status) {
-      await this.mailService.sendMail(id.toString(), status, email.trim(), { bd_id: id, name, price, email, status }); // Asegúrate de que el correo esté limpio
+      await this.mailService.sendMail(id.toString(), status, email.trim(), {
+        bd_id: id,
+        name,
+        price,
+        email,
+        status,
+      }); // Asegúrate de que el correo esté limpio
       return {
         message: `Status fetched from database: ${status} 📂`,
         status: 'Found',
-        statusCode: 200
+        statusCode: 200,
       };
     }
 
     throw new NotFoundException({
       message: 'Order not found 🛑',
       status: 'Not Found',
-      statusCode: 404
+      statusCode: 404,
     });
   }
 
@@ -114,7 +143,10 @@ export class RequestStatusService implements OnModuleInit {
     }
   }
 
-  private async getProductDetailsFromKafka(topic: string, productId: string): Promise<ProductData | null> {
+  private async getProductDetailsFromKafka(
+    topic: string,
+    productId: string,
+  ): Promise<ProductData | null> {
     return new Promise(async (resolve) => {
       const consumerGroup = `read-only-group-${topic}-details-${Date.now()}`;
       await this.readOnlyConsumerService.readMessages(
