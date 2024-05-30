@@ -41,7 +41,7 @@ services:
 
   automatic-processor-normal:
     build:
-      context: ./Automatic Process Service/normal
+      context: ./src/automatic-process-service/normal
     environment:
       - DB_HOST=pgdb_tarea2
       - DB_PORT=5432
@@ -62,7 +62,7 @@ services:
 
   automatic-processor-slower:
     build:
-      context: ./Automatic Process Service/slower
+      context: ./src/automatic-process-service/slower
     environment:
       - DB_HOST=pgdb_tarea2
       - DB_PORT=5432
