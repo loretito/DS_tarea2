@@ -6,11 +6,16 @@ import { ProductData } from 'interface';
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  sendMail(id: string, status: string, email: string, productData: ProductData): void {
+  sendMail(
+    id: string,
+    status: string,
+    email: string,
+    productData: ProductData,
+  ): void {
     const { name, price } = productData;
     console.log('Sending email to:', email);
     //this.mailerService.sendMail({
-    //  to: email, 
+    //  to: email,
     //  from: 'tarea2sdtester@gmail.com',
     //  subject: `Update on Your Order ${id}`,
     //  text: `Your product with id ${id} has been updated to ${status}. Details: Name: ${name}, Price: ${price}`,
