@@ -7,7 +7,7 @@ import { DeliveryRequestConsumer } from './producer-consumer/deliveryRequest.con
 import { RequestStatusService } from './producer-consumer/requestStatus.consumer';
 import { ReadOnlyConsumerService } from 'src/kafka/read-only.consumer';
 import { ProducerService } from './kafka/producer.service';
-import { MailModule } from 'src/mailer/mail.module';
+import { MailModule } from 'src/producer-consumer/mailer/mail.module';
 import { ConfigModule } from '@nestjs/config';
 import { MonitorEmailTopicService } from './producer-consumer/monitorEmailTopic.consumer';
 

@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ProductData } from 'interface';
 import { ReadOnlyConsumerService } from 'src/kafka/read-only.consumer';
-import { MailService } from 'src/mailer/mailer.service';
+import { MailService } from 'src/producer-consumer/mailer/mailer.service';
 
 @Injectable()
 export class MonitorEmailTopicService {
