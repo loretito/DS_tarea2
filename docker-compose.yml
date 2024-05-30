@@ -37,7 +37,7 @@ services:
       - "5444:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./BDD/db-init:/docker-entrypoint-initdb.d
+      - ./src/db/db-init:/docker-entrypoint-initdb.d
 
   automatic-processor-normal:
     build:
