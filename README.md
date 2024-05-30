@@ -1,6 +1,6 @@
 # Tarea 2 Sistemas Distribuidos
 
-Autors: César Muñoz and Loreto Ñancucheo
+Authors: César Muñoz and Loreto Ñancucheo
 
 ### Stack
 
@@ -20,6 +20,7 @@ Autors: César Muñoz and Loreto Ñancucheo
   <a href='https://www.typescriptlang.org/docs/' target='_blank'>
     <img src='https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=%23FFFFFF' height='30'>
   </a>
+  <a href='https://www.python.org/doc/' target='_blank'><img src='https://img.shields.io/badge/Python-265075?style=for-the-badge&logo=python&logoColor=%23ffffff&link=https%3A%2F%2Fwww.python.org%2Fdoc%2F' height='31'>
 </p>
 
 ### Video
@@ -28,66 +29,54 @@ something...
 
 ### Setup
 
+To install the necessary packages, run:
+
 ```bash
 npm i
 ```
 
 #### Docker
 
-To bring up Docker Compose use:
+To bring up Docker Compose, use:
 
 ```bash
-# docker-compose up -d
 docker-compose up --scale automatic-processor-normal=3 --scale automatic-processor-slower=2 --build
 ```
 
-To bring down Docker Compose
+To bring down Docker Compose, use:
 
 ```bash
 docker-compose down -v
 ```
 
-#### Producer
+#### To run the app
 
-For producer operations:
+To start the app, run:
 
 ```bash
 npm run start
 ```
 
-#### Consumer
-
-```bash
-
-```
-
-<!-- #### Docker Partition
-
-To inspect the Docker network and access Redis:
-
-```bash
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' redis1
-docker exec -it redis1 /bin/bash
-redis-cli
-cluster nodes
-``` -->
-
 ### Testing
 
-Inside src/test
-
-Install 
+Navigate to `src/test` and install the required Python packages:
 
 ```bash
 pip install psycopg2-binary confluent_kafka
 ```
 
-Use test 
+To run the tests, use: 
+
 ```bash
-python3 creadorDeOrdenes.py
+python3 order-creator.py
 ```
 
-something...
+or 
+
+```bash
+python3 orders-every-1-sec.py
+```
+
 
 ### Miscellaneous
 
