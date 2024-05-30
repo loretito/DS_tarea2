@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule } from '@nestjs/config';
 import { MailService } from './mailer.service';
-import { MonitorEmailTopicService } from 'src/producer/monitorEmailTopic.service';
-import { RequestStatusService } from 'src/producer/requestStatus.service';
+import { MonitorEmailTopicService } from 'src/producer-consumer/monitorEmailTopic.service';
+import { RequestStatusService } from 'src/producer-consumer/requestStatus.service';
 import { KafkaModule } from 'src/kafka/kafka.module';
 import { timeout } from 'rxjs';
 

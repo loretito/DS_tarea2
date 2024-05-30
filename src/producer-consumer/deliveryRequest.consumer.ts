@@ -2,7 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConsumerService } from '../kafka/consumer.service';
 import { ProducerService } from '../kafka/producer.service';
 import { ProductData } from 'interface';
-import sql from './db-connection';
+import sql from '../db/db-connection';
 
 @Injectable()
 export class DeliveryRequestConsumer implements OnModuleInit {

@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { timeout } from 'rxjs';
-import { MonitorEmailTopicService } from 'src/producer/monitorEmailTopic.service';
+import { MonitorEmailTopicService } from 'src/producer-consumer/monitorEmailTopic.service';
 
 @Controller()
 export class MailerController {
