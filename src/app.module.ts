@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { SendTopicService } from './producer-consumer/sendTopic.service';
+import { SendTopicService } from './producer-consumer/sendTopic.producer';
 import { CreateTopicService } from './producer-consumer/createTopic.service';
 import { KafkaModule } from 'src/kafka/kafka.module';
 import { DeliveryRequestConsumer } from './producer-consumer/deliveryRequest.consumer';
