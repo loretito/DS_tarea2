@@ -13,7 +13,7 @@ const sql = postgres({
   },
   onerror: (err) => {
     Logger.error(`Database error: ${err.message}`);
-  }
+  },
 });
 
 export default sql;
@@ -38,7 +38,10 @@ export const findProductById = async (productId: number) => {
     Logger.log(`Producto encontrado en la base de datos: ${result}`);
     return result.length ? result[0] : null;
   } catch (error) {
-    Logger.error('Error al buscar el producto en la base de datos:', error.message);
+    Logger.error(
+      'Error al buscar el producto en la base de datos:',
+      error.message,
+    );
     throw error;
   }
 };
