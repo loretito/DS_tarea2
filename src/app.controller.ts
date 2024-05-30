@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
-import { SendTopicService } from './sendTopic.service';
-import { ProductData } from '../../interface';
-import { RequestStatusService } from './requestStatus.service';
+import { SendTopicService } from './producer/sendTopic.service';
+import { ProductData } from '../interface';
+import { RequestStatusService } from './producer/requestStatus.service';
 
 @Controller()
 export class AppController {
@@ -20,10 +20,4 @@ export class AppController {
   async getStatus(@Param('id') id: string) {
     return await this.requestStatusService.checkProductStatus(+id);
   }
-
-  //  @Get('/test')
-  //  async testComsumeCompleted() {
-  //    await this.requestStatusService.testConsumeCompletedTopic();
-  //    return 'Consumed Completed topic';
-  //  }
 }
