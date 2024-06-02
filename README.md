@@ -25,7 +25,7 @@ Authors: César Muñoz and Loreto Ñancucheo
 
 ### Video
 
-something...
+<a href='https://youtu.be/Gvi-shSavFE' target='_blank'><img src='https://img.shields.io/badge/Video-0F0F0F?style=for-the-badge&logo=youtube&logoColor=%23FF0000'> 
 
 ### Setup
 
