@@ -76,8 +76,3 @@ or
 ```bash
 python3 orders-every-1-sec.py
 ```
-
-
-### Miscellaneous
-
-something...
